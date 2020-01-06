@@ -39,7 +39,7 @@ public class Train {
     }
 
     /**
-     * Returns true if seat given by index is available.
+     * Return true if seat given by index is available.
      * @param seatIndex
      * @return
      */
@@ -48,7 +48,7 @@ public class Train {
     }
 
     /**
-     * Returns true if seat given by index is booked.
+     * Return true if seat given by index is booked.
      * @param seatIndex
      * @return
      */
@@ -57,7 +57,7 @@ public class Train {
     }
 
     /**
-     * Returns the amount of seats.
+     * Return the amount of seats.
      * @return
      */
     public int size() {
