@@ -1,7 +1,10 @@
+
+
+
 public class Train {
 
     /**
-     * Array representing seats. Seat number is given by index (+1) and the seat status is given by the integer.
+     * Array representing seats. Each seat's status is given by the integer value.
      * 0 is available, 1 is booked.
      */
     private int[] seats;
@@ -35,6 +38,29 @@ public class Train {
         }
     }
 
+    /**
+     * Returns true if seat given by index is available.
+     * @param seatIndex
+     * @return
+     */
+    public boolean isSeatAvailable(int seatIndex) {
+        return seats[seatIndex] == 0;
+    }
 
+    /**
+     * Returns true if seat given by index is booked.
+     * @param seatIndex
+     * @return
+     */
+    public boolean isSeatBooked(int seatIndex) {
+        return seats[seatIndex] == 1;
+    }
 
+    /**
+     * Returns the amount of seats.
+     * @return
+     */
+    public int size() {
+        return seats.length;
+    }
 }
