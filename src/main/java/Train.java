@@ -60,7 +60,70 @@ public class Train {
      * Return the amount of seats.
      * @return
      */
-    public int size() {
+    public int seatCount() {
         return seats.length;
     }
+
+    /**
+     * Return the amount of booked seats.
+     * @return
+     */
+    public int bookedSeatCount() {
+        int c = 0;
+        for (int i = 0; i < seats.length; i++) {
+            if (isSeatBooked(i)) {
+                c++;
+            }
+        }
+        return c;
+    }
+
+    public int availableSeatCount() {
+        return seatCount() - bookedSeatCount();
+    }
+
+    /**
+     * Book seat at specified index. Return false if seat is already booked, true otherwise.
+     * @return false if the seat is already booked, true otherwise.
+     * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= seatCount())
+     */
+    public boolean bookSeat(int index) {
+        if (index < 0 || index >= seatCount()) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        if (isSeatBooked(index)) {
+            return false;
+        }
+
+        seats[index] = 1;
+        return true;
+    }
+
+    /**
+     * Book first n available seats where n is the specified number. Returns false if no seats were booked. This happens
+     * if the amount of seats to be booked is larger than the amount of available seats or if the amount of seats to be
+     * booked is less than 1.
+     * @param seatsToBook
+     */
+    public boolean bookFirstAvailableSeats(int seatsToBook) {
+        if (seatsToBook > availableSeatCount() || seatsToBook < 1) {
+            return false;
+        }
+
+        int seatsBooked = 0;
+        int index = 0;
+        while (seatsBooked < seatsToBook && index < seatCount()) {
+            // TODO insert index++ bug here
+            if (isSeatAvailable(index)) {
+                bookSeat(index);
+                seatsBooked++;
+            }
+            index++;
+        }
+        return true;
+    }
+
+
+
 }
