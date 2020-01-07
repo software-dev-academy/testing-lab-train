@@ -8,13 +8,15 @@ public class Train {
      * 0 is available, 1 is booked.
      */
     private int[] seats;
+    private String model;
 
     /**
      * Create a train with the specified number of seats. All seats will be available.
      * @param seats
      */
-    public Train(int seats) {
+    public Train(String model, int seats) {
         this.seats = new int[seats];
+        this.model = model;
     }
 
     /**
@@ -25,7 +27,7 @@ public class Train {
      * @param seatMap
      * @throws IllegalArgumentException if the string can not be parsed as a valid seat map.
      */
-    public Train(String seatMap) {
+    public Train(String model, String seatMap) {
         this.seats = new int[seatMap.length()];
         for (int i = 0; i < seatMap.length(); i++) {
             if (seatMap.charAt(i) == '0') {
@@ -36,6 +38,7 @@ public class Train {
                 throw new IllegalArgumentException("Seat map string contains illegal character at index " + i);
             }
         }
+        this.model = model; // TODO insert shadowing bug
     }
 
     /**
@@ -83,7 +86,8 @@ public class Train {
     }
 
     /**
-     * Book seat at specified index. Return false if seat is already booked, true otherwise.
+     * Book seat at specified index. Return true if seat was previously available and now successfully booked, false
+     * otherwise.
      * @return false if the seat is already booked, true otherwise.
      * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= seatCount())
      */
@@ -93,6 +97,7 @@ public class Train {
         }
 
         if (isSeatBooked(index)) {
+            // TODO insert throw statement here
             return false;
         }
 
@@ -101,10 +106,31 @@ public class Train {
     }
 
     /**
+     * Cancel a booked seat at specified index. Return true if seat was previously booked and now successfully canceled,
+     * false otherwise.
+     * @param index
+     * @return
+     * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= seatCount())
+     */
+    public boolean cancelSeat(int index) {
+        if (index < 0 || index >= seatCount()) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        if (isSeatAvailable(index)) {
+            return false;
+        }
+
+        seats[index] = 0; // TODO insert off by 1 index here
+        return true;
+    }
+
+    /**
      * Book first n available seats where n is the specified number. Returns false if no seats were booked. This happens
      * if the amount of seats to be booked is larger than the amount of available seats or if the amount of seats to be
-     * booked is less than 1.
+     * booked is 0 or negative.
      * @param seatsToBook
+     * @return true if seats were booked
      */
     public boolean bookFirstAvailableSeats(int seatsToBook) {
         if (seatsToBook > availableSeatCount() || seatsToBook < 1) {
@@ -123,6 +149,15 @@ public class Train {
         }
         return true;
     }
+
+    /**
+     * Book first available seat. Returns false if no seats are available.
+     * @return true if seat was booked
+     */
+    public boolean bookFirstAvailableSeat() {
+        return bookFirstAvailableSeats(1);
+    }
+
 
 
 
